@@ -14,25 +14,38 @@ import {
 
 import { filterGenre, filterRating } from "../filter/filterSlice";
 
-// *** global variables ***  \\
-
 // *** Function ***  \\
 
 export function Songs() {
   const dispatch = useDispatch();
   const song = useSelector((state) => state.song);
-  const genreFilter = useSelector((state) => state.filter.genres);
-  console.log(genreFilter);
+  const filter = useSelector((state) => state.filter);
+  const sorting = useSelector((state) => state.sort);
+
+  // console.log(filter);
+
+  let songItems = song.songs;
+
+  if (filter.status.genre != "all") {
+    const filterby = filter.status.genre;
+    console.log("filterby: ", filterby, typeof filterby);
+    songItems = song.songs.filter(
+      (song) => song.genre.toLowerCase() === filterby
+    );
+  } else if (filter.status.rating != "all") {
+    const filterby = filter.status.rating;
+    console.log("filterby rating", filterby);
+    songItems = song.songs.filter((song) => song.rating === filterby);
+  }
 
   //
+
   const addSong = (e, newSong) => {
     e.preventDefault();
+    console.log(newSong);
 
-    const checkInputfields = Object.values(newSong).includes(undefined);
+    const checkInputfields = Object.values(newSong).includes(undefined || "");
     console.log(newSong, checkInputfields);
-
-    const checkGenreInput = genreFilter.includes(newSong.genre.toLowerCase());
-    console.log(checkGenreInput);
 
     if (checkInputfields === true) {
       alert("Please fill in all the fields");
@@ -57,26 +70,16 @@ export function Songs() {
   };
 
   //
-  const handleFilter = (e, newFilter) => {
-    console.log("in handleFilter: ", newFilter);
-    e.target.id === "rating"
-      ? dispatch(filterRating(newFilter))
-      : dispatch(filterGenre(newFilter));
-  };
 
   return (
     <main>
       <div className="songForm">
         <SongForm addSong={addSong} />
       </div>
-
-      <div className="filter">
-        <FilterButtons filter={handleFilter} />
-      </div>
-
+      <hr />
       <div className="songList">
         <SongList
-          songs={song.songs}
+          songs={songItems}
           sort={handleSort}
           delete={handleDeleteButton}
         />
