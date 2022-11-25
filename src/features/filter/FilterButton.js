@@ -1,82 +1,85 @@
 import { useSelector, useDispatch } from "react-redux";
-import {
-  filterStatus,
-  filterStatusChanged,
-  filterGenre,
-  filterRating,
-} from "./filterSlice";
+import { filterStatusChanged } from "./filterSlice";
+
 // import filterSlice from "./filterSlice";
 // import { availableGenres } from "./Filters";
 
 function FilterButtons(props) {
+  console.log(`in filterButtons`);
   const dispatch = useDispatch();
 
   const filter = useSelector((state) => state.filter);
+  console.log(filter);
 
   // genre filter \\
 
-  const GenreFilters = ({ value: genres, onChange }) => {
+  const GenreFilters = ({ value: genres, onClick }) => {
     const availableGenres = genres.map((value) => (
-      <option key={value} value={value}>
+      <li key={value} value={value} className="genre">
         {value}
-      </option>
+      </li>
     ));
 
     return (
-      <select
-        className="select-hidden"
+      <ul
+        className=""
         id="genre"
         style={{ minWidth: "100px" }}
-        onChange={(e) => onChange(e, e.target.value)}
+        onClick={(e) => onClick(e, e.target)}
       >
-        <option value="">filter by genre</option>
-        <option value="all">All genres</option>
+        Filter by genre
+        <li className="genre" value="all">
+          All
+        </li>
         {availableGenres}
-      </select>
+      </ul>
     );
   };
 
-  const onGenreChange = (event, value) => {
-    console.log("genre value: ", value);
-    // dispatch(filterGenre(value));
-  };
-
-  //
   // rating filter \\
-  //
 
-  const RatingFilter = ({ value: rating, onChange }) => {
+  const RatingFilter = ({ value: rating, onClick }) => {
     const availableRatings = rating.map((value) => (
-      <option key={value} value={value}>
+      <li key={value} value={value} className="rating">
         {value}
-      </option>
+      </li>
     ));
 
     return (
-      <select
-        className="select-hidden"
+      <ul
+        className=""
         id="rating"
         style={{ minWidth: "100px" }}
-        onChange={(e) => onChange(e, e.target.value)}
+        onClick={(e) => onClick(e, e.target)}
       >
-        <option value="">filter by rating</option>
-        <option value="clear"></option>
+        Filter by rating
+        <li className="rating" value="all">
+          All
+        </li>
         {availableRatings}
-      </select>
+      </ul>
     );
   };
 
-  const onRatingChange = (event, value) => {
-    console.log("rating value: ", value);
+  const onChange = (event, target) => {
+    console.log(event);
+    const { className, value } = target;
+    console.log(className);
+    dispatch(
+      filterStatusChanged({
+        id: className,
+        value: value,
+      })
+    );
 
     // dispatch(filterRating(value));
   };
 
   return (
     <>
-      <GenreFilters value={filter.genres} onChange={onGenreChange} />
+      <GenreFilters value={filter.genres} onClick={onChange} />
       <br />
-      <RatingFilter value={filter.rating} onChange={onRatingChange} />
+      <RatingFilter value={filter.rating} onClick={onChange} />
     </>
   );
 }

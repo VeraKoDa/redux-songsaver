@@ -1,6 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { songData } from "../../songData";
-import SongList from "./SongList";
+import {useSelector} from "react-redux"
 
 const initialState = {
   songs: songData,

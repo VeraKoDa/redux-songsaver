@@ -2,8 +2,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { allSongs } from "../songs/songSlice";
 
 const initialState = {
-  sortType: "",
-  songs: {},
+  sortBy: "",
 };
 
 export const sortSlice = createSlice({
@@ -13,12 +12,28 @@ export const sortSlice = createSlice({
   reducers: {
     Sort: (state, action) => {
       console.log(current(state), action);
-      state.sortType = action.payload.sortBy;
-      state.songs = action.payload.sortArray;
+      state.sortBy = action.payload.sortBy;
+      console.log(state.sortBy);
+    },
+    songSort(state, action) {
+      console.log("in songSort", action);
+      state.songs.sort((a, b) => {
+        switch (action.payload) {
+          case "song":
+            return a.song < b.song ? -1 : 1;
 
-      console.log(state.songs);
-      state.songs = state.songs.sort((a, b) => {
-        return a.song < b.song ? -1 : 1;
+          case "artist":
+            return a.artist < b.artist ? -1 : 1;
+
+          case "genre":
+            return a.genre < b.genre ? -1 : 1;
+
+          case "rating":
+            return a.rating < b.rating ? -1 : 1;
+
+          default:
+            return state;
+        }
       });
     },
   },

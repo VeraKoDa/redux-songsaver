@@ -1,20 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { filterGenre, filterRating } from "../filter/filterSlice";
 
+// variables
+
+// functions
+
 function NewSongItem(props) {
-  // console.log("newSongItem props", props);
-  const dispatch = useDispatch();
-  const genreInState = useSelector((state) => state.filter.genres);
-  const ratingInState = useSelector((state) => state.filter.rating);
-
-  // check and dispatch genre
-
-  const checkGenre = !genreInState.includes(props.genre.toLowerCase());
-  checkGenre ? dispatch(filterGenre(props.genre.toLowerCase())) : console.log();
-
-  // check and dispatch rating
-  const checkRating = !ratingInState.includes(parseInt(props.rating));
-  checkRating ? dispatch(filterRating(parseInt(props.rating))) : console.log();
+  console.log(props);
 
   return (
     <tr className="song-data" id={props.id}>
@@ -24,7 +16,7 @@ function NewSongItem(props) {
       <td className="song-data_row">{props.rating}</td>
       <td>
         <button
-          className="delete"
+          className="deleteButton"
           id={props.id}
           onClick={() => props.delete(props.id)}
           value="delete"

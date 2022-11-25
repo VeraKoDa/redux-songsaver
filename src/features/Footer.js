@@ -1,7 +1,14 @@
+import FilterButtons from "./filter/FilterButton";
+import { useDispatch } from "react-redux";
+import { filterRating, filterGenre } from "./filter/filterSlice";
+
 function Footer() {
+  console.log("in footer");
   return (
     <footer>
-      <h5>Bedankt!</h5>
+      <div className="filter">
+        <FilterButtons />
+      </div>
     </footer>
   );
 }

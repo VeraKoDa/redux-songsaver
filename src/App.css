@@ -56,20 +56,22 @@ button {
 div.filter {
   display: flex;
   flex-direction: row;
-  height: 50px;
+  height: auto;
 }
-select {
-  margin: 5px 10px;
+ul {
+  margin: 0 10px;
+  padding: 10px;
+  list-style-type: none;
+  font-weight: bold;
+  color: grey;
 }
-select option {
+ul li {
   color: black;
+  cursor: pointer;
+  margin: 5px;
+  font-weight: normal;
 }
-select option:first-child {
-  color: grey;
-}
-select.select-hidden {
-  color: grey;
-}
-select option[disabled]:first-child {
-  display: none;
+
+ul li:active {
+  color: pink;
 }
