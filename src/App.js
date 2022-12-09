@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./features/Header";
 import Footer from "./features/Footer";
-import { Songs } from "./features/songs/Songs";
+import Songs from "./features/Songs";
 
 import "./App.css";
 

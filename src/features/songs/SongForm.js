@@ -1,31 +1,37 @@
 import React from "react";
 import { useState } from "react";
-import { store } from "../../app/store";
-import { useSelector } from "react-redux";
 
 function SongForm(props) {
-  // console.log(`props in songForm: `, props);
-  const [song, setSong] = useState({
-    id: store.getState().song.songs.length + 1,
+  const initialState = {
     song: "",
     artist: "",
     genre: "",
     rating: "",
-  });
+  };
+
+  const [newSong, setnewSong] = useState(initialState);
+
+  const handleSubmit = (e) => {
+    props.addSong(e, newSong);
+    setnewSong(initialState);
+  };
 
   return (
     <form
       onSubmit={(e) => {
-        props.addSong(e, song);
+        handleSubmit(e);
       }}
-      name="newSongInput"
+      id="newSongInput"
     >
       <label name="song">
         Song
         <input
           type="text"
           name="song"
-          onChange={(i) => setSong({ ...song, song: i.target.value })}
+          value={newSong.song}
+          onChange={(i) =>
+            setnewSong({ ...newSong, [i.target.name]: i.target.value })
+          }
         ></input>
       </label>
 
@@ -34,7 +40,10 @@ function SongForm(props) {
         <input
           type="text"
           name="artist"
-          onChange={(i) => setSong({ ...song, artist: i.target.value })}
+          value={newSong.artist}
+          onChange={(i) =>
+            setnewSong({ ...newSong, [i.target.name]: i.target.value })
+          }
         ></input>
       </label>
 
@@ -43,7 +52,10 @@ function SongForm(props) {
         <input
           type="text"
           name="genre"
-          onChange={(i) => setSong({ ...song, genre: i.target.value })}
+          value={newSong.genre}
+          onChange={(i) =>
+            setnewSong({ ...newSong, [i.target.name]: i.target.value })
+          }
         ></input>
       </label>
 
@@ -51,7 +63,11 @@ function SongForm(props) {
         Rating
         <select
           style={{ minWidth: "50px" }}
-          onChange={(i) => setSong({ ...song, rating: i.target.value })}
+          name="rating"
+          value={newSong.rating}
+          onChange={(i) =>
+            setnewSong({ ...newSong, [i.target.name]: i.target.value })
+          }
         >
           <option name="choose">Please choose a rating</option>
           <option name="1">1</option>
@@ -62,7 +78,7 @@ function SongForm(props) {
         </select>
       </label>
 
-      <button>Toevoegen</button>
+      <button className="songFormButton">Toevoegen</button>
     </form>
   );
 }
